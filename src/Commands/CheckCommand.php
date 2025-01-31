@@ -22,7 +22,7 @@ class CheckCommand extends Command
             $this->warn('DB versions mismatch. Please run `php artisan lsvm:migrate`');
         }
 		else {
-			$this->success('Yaay!! Versions match!!');
+			$this->warn('Yaay!! Versions match!!');
 		}
 
         $this->comment('All done');
