@@ -45,11 +45,6 @@ class MigrateCommand extends Command
             'db_version' => $version,
         ];
 
-        if (!$manager) {
-            DB::table('version_manager')->insert($data);
-        }
-        else {
-            $manager->update($data);
-        }
+        DB::table('version_manager')->upsert($data, array_keys($data));
     }
 }

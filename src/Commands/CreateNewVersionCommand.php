@@ -31,19 +31,12 @@ class CreateNewVersionCommand extends Command
 
     private function createNewVersion($schema_version, $db_version)
     {
-        $schema_version++;
+        $schema_version = time();
         $data = [
             'schema_version' => $schema_version,
             'db_version' => $db_version,
         ];
-
-        $manager = DB::table('version_manager')->first();
-
-        if (!$manager) {
-            DB::table('version_manager')->insert($data);
-        }
-        else {
-            $manager->update($data);
-        }
+		
+		DB::table('version_manager')->upsert($data, array_keys($data));
     }
 }
