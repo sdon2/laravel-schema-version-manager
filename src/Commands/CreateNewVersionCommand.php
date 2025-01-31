@@ -20,6 +20,9 @@ class CreateNewVersionCommand extends Command
         if ($schema !== $db) {
             $this->createNewVersion($schema, $db);
         }
+		else {
+			$this->warn('Versions already match!!');
+		}
 
         $this->comment('All done');
 

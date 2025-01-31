@@ -21,6 +21,9 @@ class MigrateCommand extends Command
         if ($schema !== $db) {
             $this->runMigrations();
         }
+		else {
+			$this->warn('Versions match!! Nothing to migrate!');
+		}
 
         $this->comment('All done');
 

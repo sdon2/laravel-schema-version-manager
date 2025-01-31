@@ -21,6 +21,9 @@ class CheckCommand extends Command
         if ($schema !== $db) {
             $this->warn('DB versions mismatch. Please run `php artisan lsvm:migrate`');
         }
+		else {
+			$this->success('Yaay!! Versions match!!');
+		}
 
         $this->comment('All done');
 
