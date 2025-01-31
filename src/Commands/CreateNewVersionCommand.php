@@ -17,7 +17,7 @@ class CreateNewVersionCommand extends Command
         $schema = $manager->schema_version ?? time();
         $db = $manager->db_version ?? null;
 
-        if ($schema !== $db) {
+        if ($schema === $db) {
             $this->createNewVersion($schema, $db);
         }
 		else {
