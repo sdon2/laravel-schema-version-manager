@@ -2,8 +2,8 @@
 
 namespace HansoftTechnologies\LaravelSchemaVersionManager\Commands;
 
+use HansoftTechnologies\LaravelSchemaVersionManager\Models\VersionManager;
 use Illuminate\Console\Command;
-use Illuminate\Support\Facades\DB;
 
 class CreateNewVersionCommand extends Command
 {
@@ -13,7 +13,7 @@ class CreateNewVersionCommand extends Command
 
     public function handle(): int
     {
-        $manager = DB::table('version_manager')->first();
+        $manager = VersionManager::query()->first();
         $schema = $manager->schema_version ?? time();
         $db = $manager->db_version ?? null;
 
@@ -37,6 +37,13 @@ class CreateNewVersionCommand extends Command
             'db_version' => $db_version,
         ];
 		
-		DB::table('version_manager')->upsert($data, array_keys($data));
+		$manager = VersionManager::query()->first();
+		
+		if (!$manager) {
+			VersionManager::query()->create($data);
+		}
+		else {
+			$manager->update($data);
+		}
     }
 }

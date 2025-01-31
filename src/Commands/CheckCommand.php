@@ -2,8 +2,8 @@
 
 namespace HansoftTechnologies\LaravelSchemaVersionManager\Commands;
 
+use HansoftTechnologies\LaravelSchemaVersionManager\Models\VersionManager;
 use Illuminate\Console\Command;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Artisan;
 
 class CheckCommand extends Command
@@ -14,7 +14,7 @@ class CheckCommand extends Command
 
     public function handle(): int
     {
-        $manager = DB::table('version_manager')->first();
+        $manager = VersionManager::query()->first();
         $schema = $manager->schema_version ?? time();
         $db = $manager->db_version ?? null;
 

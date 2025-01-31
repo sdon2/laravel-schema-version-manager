@@ -2,8 +2,8 @@
 
 namespace HansoftTechnologies\LaravelSchemaVersionManager\Commands;
 
+use HansoftTechnologies\LaravelSchemaVersionManager\Models\VersionManager;
 use Illuminate\Console\Command;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Artisan;
 
 class MigrateCommand extends Command
@@ -14,7 +14,7 @@ class MigrateCommand extends Command
 
     public function handle(): int
     {
-        $manager = DB::table('version_manager')->first();
+        $manager = VersionManager::query()->first();
         $schema = $manager->schema_version ?? time();
         $db = $manager->db_version ?? null;
 
@@ -36,7 +36,7 @@ class MigrateCommand extends Command
 
         Artisan::call('migrate');
 
-        $manager = DB::table('version_manager')->first();
+        $manager = VersionManager::query()->first();
 
         $version = $manager->schema_version ?? time();
 
@@ -44,7 +44,12 @@ class MigrateCommand extends Command
             'schema_version' => $version,
             'db_version' => $version,
         ];
-
-        DB::table('version_manager')->upsert($data, array_keys($data));
+		
+		if (!$manager) {
+			VersionManager::query()->create($data);
+		}
+		else {
+			$manager->update($data);
+		}
     }
 }
