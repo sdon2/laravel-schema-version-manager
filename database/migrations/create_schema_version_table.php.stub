@@ -10,8 +10,8 @@ return new class extends Migration
     {
         Schema::create('version_manager', function (Blueprint $table) {
             $table->id();
-            $table->unsigneBigInteger('schema_version');
-            $table->unsigneBigInteger('db_version');
+            $table->unsignedBigInteger('schema_version');
+            $table->unsignedBigInteger('db_version');
             $table->timestamps();
         });
     }
