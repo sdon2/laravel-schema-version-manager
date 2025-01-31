@@ -8,11 +8,10 @@ return new class extends Migration
 {
     public function up()
     {
-        Schema::create('migration_table_name_table', function (Blueprint $table) {
+        Schema::create('version_manager', function (Blueprint $table) {
             $table->id();
-
-            // add fields
-
+            $table->unsigneBigInteger('schema_version');
+            $table->unsigneBigInteger('db_version');
             $table->timestamps();
         });
     }
